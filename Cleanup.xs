@@ -1,5 +1,5 @@
-/* This file is part of the Scope::Upper Perl module.
- * See http://search.cpan.org/dist/Scope-Upper/ */
+/* This file is part of the Thread::Cleanup Perl module.
+ * See http://search.cpan.org/dist/Thread-Cleanup/ */
    
 #define PERL_NO_GET_CONTEXT
 #include "EXTERN.h"
@@ -31,9 +31,9 @@ STATIC void tc_callback(pTHX_ void *ud) {
   PUSHMARK(SP);
   PUTBACK;
 
-  call_pv(__PACKAGE__ "::_CLEANUP", G_VOID);
+  call_pv(__PACKAGE__ "::_CLEANUP", G_VOID | G_EVAL);
 
-  SPAGAIN;
+  PUTBACK;
 
   FREETMPS;
   LEAVE;

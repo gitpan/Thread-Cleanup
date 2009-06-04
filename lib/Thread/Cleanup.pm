@@ -11,14 +11,14 @@ Thread::Cleanup - Hook thread destruction.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
 our $VERSION;
 
 BEGIN {
- $VERSION = '0.01';
+ $VERSION = '0.02';
  require XSLoader;
  XSLoader::load(__PACKAGE__, $VERSION);
 }
@@ -59,7 +59,7 @@ it will be called for detached threads only if they terminate before the main th
 
 =item *
 
-it won't trigger for the the destruction of the main thread.
+it won't trigger for the destruction of the main thread.
 
 =back
 
@@ -77,11 +77,11 @@ None.
 
 =head1 DEPENDENCIES
 
-C<perl> 5.8.
+L<perl> 5.8.
 
-C<threads> 1.07.
+L<threads> 1.07.
 
-C<XSLoader>.
+L<XSLoader>.
 
 =head1 AUTHOR
 

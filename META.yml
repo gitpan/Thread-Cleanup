@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Thread-Cleanup
-version:            0.01
+version:            0.02
 abstract:           Hook thread destruction.
 author:
     - Vincent Pit <perl@profvince.com>
@@ -20,12 +20,12 @@ resources:
     bugtracker:  http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Thread-Cleanup
     homepage:    http://search.cpan.org/dist/Thread-Cleanup/
     license:     http://dev.perl.org/licenses/
-    repository:  http://git.profvince.com/perl/modules/Thread-Cleanup.git
+    repository:  http://git.profvince.com/?p=perl%2Fmodules%2FThread-Cleanup.git
 no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.48
+generated_by:       ExtUtils::MakeMaker version 6.52
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

@@ -24,10 +24,13 @@ BEGIN {
 
 use Test::More tests => (($num ** ($depth + 1) - 1) / ($num - 1) - 1 ) * (2 + 2) + 1;
 
+BEGIN {
+ defined and diag "Using threads $_"         for $threads::VERSION;
+ defined and diag "Using threads::shared $_" for $threads::shared::VERSION;
+}
+
 use Thread::Cleanup;
 
-diag "Using threads $threads::VERSION";
-diag "Using threads::shared $threads::shared::VERSION";
 diag 'This will leak some scalars';
 
 our $x = -1;

@@ -16,7 +16,12 @@ BEGIN {
 use threads;
 use threads::shared;
 
-use Test::More tests => 5 * (2 + 2) + 1;
+use Test::More tests => 5 * (2 + 2 + 1) + 1;
+
+BEGIN {
+ defined and diag "Using threads $_"         for $threads::VERSION;
+ defined and diag "Using threads::shared $_" for $threads::shared::VERSION;
+}
 
 use Thread::Cleanup;
 
@@ -71,17 +76,18 @@ my @t = map {
  $thr;
 } 0 .. 4;
 
-diag "Using threads $threads::VERSION";
-diag "Using threads::shared $threads::shared::VERSION";
-
 $_->detach for @t;
 
 sleep 2;
 
 is $x, -1, '$x in the main thread';
 
-is $ran{$_},    1, "thread $_ was run once" for @tids;
+for (@tids) {
+ is $ran{$_},    1,     "thread $_ was run once";
+ is $called{$_}, undef, "thread $_ destructor wasn't called yet";
+}
 
 END {
- is $called{$_}, 1, "thread $_ destructor was called once" for @tids;
+ is $called{$_}, 1, "thread $_ destructor was called once at END time"
+                                                                      for @tids;
 }

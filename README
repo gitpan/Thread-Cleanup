@@ -2,7 +2,7 @@ NAME
     Thread::Cleanup - Hook thread destruction.
 
 VERSION
-    Version 0.01
+    Version 0.02
 
 SYNOPSIS
         use Thread::Cleanup;
@@ -31,17 +31,17 @@ FUNCTIONS
     *   it will be called for detached threads only if they terminate before
         the main thread, and the hook will then fire at "END" time ;
 
-    *   it won't trigger for the the destruction of the main thread.
+    *   it won't trigger for the destruction of the main thread.
 
 EXPORT
     None.
 
 DEPENDENCIES
-    "perl" 5.8.
+    perl 5.8.
 
-    "threads" 1.07.
+    threads 1.07.
 
-    "XSLoader".
+    XSLoader.
 
 AUTHOR
     Vincent Pit, "<perl at profvince.com>", <http://www.profvince.com>.

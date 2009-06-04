@@ -18,6 +18,11 @@ use threads::shared;
 
 use Test::More tests => 5 * (2 + 2) + 1;
 
+BEGIN {
+ defined and diag "Using threads $_"         for $threads::VERSION;
+ defined and diag "Using threads::shared $_" for $threads::shared::VERSION;
+}
+
 use Thread::Cleanup;
 
 my %called : shared;
@@ -69,9 +74,6 @@ my @t = map {
  push @tids, $thr->tid;
  $thr;
 } 0 .. 4;
-
-diag "Using threads $threads::VERSION";
-diag "Using threads::shared $threads::shared::VERSION";
 
 $_->join for @t;
 

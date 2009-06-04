@@ -1,5 +1,11 @@
 Revision history for Thread-Cleanup
 
+0.02    2009-06-04 21:35 UTC
+        + Doc : Typos and nits.
+        + Fix : Dieing inside a Thread::Cleanup callback no longer causes the
+                whole process to exit.
+        + Tst : Test that detached threads destructors don't fire before END.
+
 0.01    2009-03-16 00:30 UTC
         First version, released on an unsuspecting world.
 
