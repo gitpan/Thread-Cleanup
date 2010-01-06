@@ -1,5 +1,9 @@
 Revision history for Thread-Cleanup
 
+0.03    2010-01-06 23:30 UTC
+        + Fix : Named scopes with debugging blead.
+        + Fix : Work around Kwalitee test misfailures.
+
 0.02    2009-06-04 21:35 UTC
         + Doc : Typos and nits.
         + Fix : Dieing inside a Thread::Cleanup callback no longer causes the

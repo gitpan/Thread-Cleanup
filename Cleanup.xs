@@ -9,6 +9,14 @@
 #define __PACKAGE__     "Thread::Cleanup"
 #define __PACKAGE_LEN__ (sizeof(__PACKAGE__)-1)
 
+#ifndef ENTER_with_name
+# define ENTER_with_name(N) ENTER
+#endif
+
+#ifndef LEAVE_with_name
+# define LEAVE_with_name(N) LEAVE
+#endif
+
 STATIC void tc_callback(pTHX_ void *);
 
 STATIC void tc_callback(pTHX_ void *ud) {
@@ -52,7 +60,7 @@ CODE:
  {
   level = PerlMemShared_malloc(sizeof *level);
   *level = 1;
-  LEAVE;
+  LEAVE_with_name("sub");
   SAVEDESTRUCTOR_X(tc_callback, level);
-  ENTER;
+  ENTER_with_name("sub");
  }

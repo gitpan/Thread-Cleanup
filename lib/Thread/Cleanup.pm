@@ -11,14 +11,14 @@ Thread::Cleanup - Hook thread destruction.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
 our $VERSION;
 
 BEGIN {
- $VERSION = '0.02';
+ $VERSION = '0.03';
  require XSLoader;
  XSLoader::load(__PACKAGE__, $VERSION);
 }
@@ -44,18 +44,18 @@ It acts globally on all the threads that may spawn anywhere in your program, wit
 
 =head2 C<register BLOCK>
 
-Specify that the C<BLOCK> will have to be called (in void context, without arguments) every time a thread finishes is job.
+Specify that the C<BLOCK> will have to be called (in void context, without arguments) every time a thread finishes its job.
 More precisely,
 
 =over 4
 
 =item *
 
-it will always be called before the join for joined threads ;
+it will always be called before the joining for joined threads ;
 
 =item *
 
-it will be called for detached threads only if they terminate before the main thread, and the hook will then fire at C<END> time ;
+it will be called for detached threads if and only if they terminate before the main thread, and the hook will then fire at C<END> time ;
 
 =item *
 
@@ -103,7 +103,7 @@ Inspired by a question from TonyC on #p5p.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 Vincent Pit, all rights reserved.
+Copyright 2009,2010 Vincent Pit, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

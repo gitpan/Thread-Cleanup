@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Thread-Cleanup
-version:            0.02
+version:            0.03
 abstract:           Hook thread destruction.
 author:
     - Vincent Pit <perl@profvince.com>
@@ -11,7 +11,9 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
     Test::More:           0
+    threads:              1.07
     threads::shared:      0.91
+    XSLoader:             0
 requires:
     perl:      5.008
     threads:   1.07
@@ -25,7 +27,8 @@ no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.52
+generated_by:       ExtUtils::MakeMaker version 6.56
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4
+dynamic_config:     0
