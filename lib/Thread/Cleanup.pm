@@ -11,14 +11,14 @@ Thread::Cleanup - Hook thread destruction.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
 our $VERSION;
 
 BEGIN {
- $VERSION = '0.03';
+ $VERSION = '0.04';
  require XSLoader;
  XSLoader::load(__PACKAGE__, $VERSION);
 }

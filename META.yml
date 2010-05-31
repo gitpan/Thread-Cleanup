@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Thread-Cleanup
-version:            0.03
+version:            0.04
 abstract:           Hook thread destruction.
 author:
     - Vincent Pit <perl@profvince.com>

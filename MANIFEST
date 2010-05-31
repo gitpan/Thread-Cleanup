@@ -1,9 +1,11 @@
 Changes
 Cleanup.xs
 MANIFEST
+META.yml
 Makefile.PL
 README
 lib/Thread/Cleanup.pm
+reap.h
 samples/try.pl
 t/00-load.t
 t/10-join.t
@@ -14,4 +16,3 @@ t/91-pod.t
 t/92-pod-coverage.t
 t/95-portability-files.t
 t/99-kwalitee.t
-META.yml                                 Module meta-data (added by MakeMaker)

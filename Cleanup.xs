@@ -9,43 +9,25 @@
 #define __PACKAGE__     "Thread::Cleanup"
 #define __PACKAGE_LEN__ (sizeof(__PACKAGE__)-1)
 
-#ifndef ENTER_with_name
-# define ENTER_with_name(N) ENTER
-#endif
+#define TC_HAS_PERL(R, V, S) (PERL_REVISION > (R) || (PERL_REVISION == (R) && (PERL_VERSION > (V) || (PERL_VERSION == (V) && (PERL_SUBVERSION >= (S))))))
 
-#ifndef LEAVE_with_name
-# define LEAVE_with_name(N) LEAVE
-#endif
-
-STATIC void tc_callback(pTHX_ void *);
+#include "reap.h"
 
 STATIC void tc_callback(pTHX_ void *ud) {
- int *level = ud;
- SV *id;
+ dSP;
 
- if (*level) {
-  *level = 0;
-  LEAVE;
-  SAVEDESTRUCTOR_X(tc_callback, level);
-  ENTER;
- } else {
-  dSP;
+ ENTER;
+ SAVETMPS;
 
-  PerlMemShared_free(level);
+ PUSHMARK(SP);
+ PUTBACK;
 
-  ENTER;
-  SAVETMPS;
+ call_pv(__PACKAGE__ "::_CLEANUP", G_VOID | G_EVAL);
 
-  PUSHMARK(SP);
-  PUTBACK;
+ PUTBACK;
 
-  call_pv(__PACKAGE__ "::_CLEANUP", G_VOID | G_EVAL);
-
-  PUTBACK;
-
-  FREETMPS;
-  LEAVE;
- }
+ FREETMPS;
+ LEAVE;
 }
 
 MODULE = Thread::Cleanup            PACKAGE = Thread::Cleanup
@@ -55,12 +37,6 @@ PROTOTYPES: DISABLE
 void
 CLONE(...)
 PREINIT:
- int *level;
-CODE:
- {
-  level = PerlMemShared_malloc(sizeof *level);
-  *level = 1;
-  LEAVE_with_name("sub");
-  SAVEDESTRUCTOR_X(tc_callback, level);
-  ENTER_with_name("sub");
- }
+PPCODE:
+ reap(3, tc_callback, NULL);
+ XSRETURN(0);

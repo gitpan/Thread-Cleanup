@@ -31,7 +31,7 @@ BEGIN {
 
 use Thread::Cleanup;
 
-diag 'This will leak some scalars';
+diag 'This will leak some scalars' unless $] >= 5.011005;
 
 our $x = -1;
 
