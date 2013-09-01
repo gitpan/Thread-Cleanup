@@ -11,14 +11,14 @@ Thread::Cleanup - Hook thread destruction.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
 our $VERSION;
 
 BEGIN {
- $VERSION = '0.04';
+ $VERSION = '0.05';
  require XSLoader;
  XSLoader::load(__PACKAGE__, $VERSION);
 }
@@ -42,9 +42,12 @@ It acts globally on all the threads that may spawn anywhere in your program, wit
 
 =head1 FUNCTIONS
 
-=head2 C<register BLOCK>
+=head2 C<register>
 
-Specify that the C<BLOCK> will have to be called (in void context, without arguments) every time a thread finishes its job.
+    register { ... };
+    &register($coderef);
+
+Specify that the given block or code reference C<$coderef> will have to be called (in void context, without arguments) every time a thread finishes its job.
 More precisely,
 
 =over 4
@@ -79,6 +82,9 @@ None.
 
 L<perl> 5.8.
 
+A C compiler.
+This module may happen to build with a C++ compiler as well, but don't rely on it, as no guarantee is made in this regard.
+
 L<threads> 1.07.
 
 L<XSLoader>.
@@ -103,7 +109,7 @@ Inspired by a question from TonyC on #p5p.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009,2010 Vincent Pit, all rights reserved.
+Copyright 2009,2010,2013 Vincent Pit, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

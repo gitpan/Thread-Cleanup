@@ -2,7 +2,7 @@ NAME
     Thread::Cleanup - Hook thread destruction.
 
 VERSION
-    Version 0.04
+    Version 0.05
 
 SYNOPSIS
         use Thread::Cleanup;
@@ -22,9 +22,13 @@ DESCRIPTION
     program, with the exception of the main thread.
 
 FUNCTIONS
-  "register BLOCK"
-    Specify that the "BLOCK" will have to be called (in void context,
-    without arguments) every time a thread finishes its job. More precisely,
+  "register"
+        register { ... };
+        &register($coderef);
+
+    Specify that the given block or code reference $coderef will have to be
+    called (in void context, without arguments) every time a thread finishes
+    its job. More precisely,
 
     *   it will always be called before the joining for joined threads ;
 
@@ -38,6 +42,9 @@ EXPORT
 
 DEPENDENCIES
     perl 5.8.
+
+    A C compiler. This module may happen to build with a C++ compiler as
+    well, but don't rely on it, as no guarantee is made in this regard.
 
     threads 1.07.
 
@@ -62,7 +69,7 @@ ACKNOWLEDGEMENTS
     Inspired by a question from TonyC on #p5p.
 
 COPYRIGHT & LICENSE
-    Copyright 2009,2010 Vincent Pit, all rights reserved.
+    Copyright 2009,2010,2013 Vincent Pit, all rights reserved.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

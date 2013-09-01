@@ -1,34 +1,33 @@
---- #YAML:1.0
-name:               Thread-Cleanup
-version:            0.04
-abstract:           Hook thread destruction.
+---
+abstract: 'Hook thread destruction.'
 author:
-    - Vincent Pit <perl@profvince.com>
-license:            perl
-distribution_type:  module
-configure_requires:
-    ExtUtils::MakeMaker:  0
+  - 'Vincent Pit <perl@profvince.com>'
 build_requires:
-    ExtUtils::MakeMaker:  0
-    Test::More:           0
-    threads:              1.07
-    threads::shared:      0.91
-    XSLoader:             0
-requires:
-    perl:      5.008
-    threads:   1.07
-    XSLoader:  0
-resources:
-    bugtracker:  http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Thread-Cleanup
-    homepage:    http://search.cpan.org/dist/Thread-Cleanup/
-    license:     http://dev.perl.org/licenses/
-    repository:  http://git.profvince.com/?p=perl%2Fmodules%2FThread-Cleanup.git
-no_index:
-    directory:
-        - t
-        - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+  ExtUtils::MakeMaker: 0
+  Test::More: 0
+  XSLoader: 0
+  threads: 1.07
+  threads::shared: 0.91
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921'
+license: perl
 meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
-dynamic_config:     0
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Thread-Cleanup
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  XSLoader: 0
+  perl: 5.008
+  threads: 1.07
+resources:
+  bugtracker: http://rt.cpan.org/Dist/Display.html?Name=Thread-Cleanup
+  homepage: http://search.cpan.org/dist/Thread-Cleanup/
+  license: http://dev.perl.org/licenses/
+  repository: http://git.profvince.com/?p=perl%2Fmodules%2FThread-Cleanup.git
+version: 0.05

@@ -3,25 +3,10 @@
 use strict;
 use warnings;
 
-use Config qw/%Config/;
+use lib 't/lib';
+use Thread::Cleanup::TestThreads;
 
-BEGIN {
- if (!$Config{useithreads}) {
-  require Test::More;
-  Test::More->import;
-  plan(skip_all => 'This perl wasn\'t built to support threads');
- }
-}
-
-use threads;
-use threads::shared;
-
-use Test::More tests => 5 * (2 + 2 + 1) + 1;
-
-BEGIN {
- defined and diag "Using threads $_"         for $threads::VERSION;
- defined and diag "Using threads::shared $_" for $threads::shared::VERSION;
-}
+use Test::More 'no_plan';
 
 use Thread::Cleanup;
 
@@ -67,16 +52,14 @@ sub cb {
  sleep 1;
 }
 
-my @tids;
-
-my @t = map {
+my @threads = map {
  local $x = $_;
- my $thr = threads->create(\&cb, $_);
- push @tids, $thr->tid;
- $thr;
+ spawn(\&cb, $_);
 } 0 .. 4;
 
-$_->detach for @t;
+my @tids = map $_->tid, @threads;
+
+$_->detach for @threads;
 
 sleep 2;
 

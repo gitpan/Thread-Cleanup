@@ -3,25 +3,10 @@
 use strict;
 use warnings;
 
-use Config qw/%Config/;
+use lib 't/lib';
+use Thread::Cleanup::TestThreads;
 
-BEGIN {
- if (!$Config{useithreads}) {
-  require Test::More;
-  Test::More->import;
-  plan(skip_all => 'This perl wasn\'t built to support threads');
- }
-}
-
-use threads;
-use threads::shared;
-
-use Test::More tests => 5 + 1;
-
-BEGIN {
- defined and diag "Using threads $_"         for $threads::VERSION;
- defined and diag "Using threads::shared $_" for $threads::shared::VERSION;
-}
+use Test::More;
 
 use Thread::Cleanup;
 
@@ -38,11 +23,17 @@ Thread::Cleanup::register {
 {
  local $SIG{__DIE__} = sub { msg 'sig', @_ };
  no warnings 'threads';
- threads->create(sub {
+ my $thr = spawn(sub {
   msg 'spawn';
   die 'thread';
   msg 'not reached 2';
- })->join;
+ });
+ if ($thr) {
+  plan tests    => 5 + 1;
+ } else {
+  plan skip_all => 'Could not spawn the testing thread';
+ }
+ $thr->join;
 }
 
 msg 'done';

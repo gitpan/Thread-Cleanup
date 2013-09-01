@@ -1,9 +1,9 @@
 /* This file is part of the Thread::Cleanup Perl module.
  * See http://search.cpan.org/dist/Thread-Cleanup/ */
-   
+
 #define PERL_NO_GET_CONTEXT
 #include "EXTERN.h"
-#include "perl.h" 
+#include "perl.h"
 #include "XSUB.h"
 
 #define __PACKAGE__     "Thread::Cleanup"

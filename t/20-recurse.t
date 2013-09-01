@@ -3,35 +3,17 @@
 use strict;
 use warnings;
 
-use Config qw/%Config/;
+use lib 't/lib';
+use Thread::Cleanup::TestThreads;
 
-BEGIN {
- if (!$Config{useithreads}) {
-  require Test::More;
-  Test::More->import;
-  plan(skip_all => 'This perl wasn\'t built to support threads');
- }
-}
+use Test::More 'no_plan';
 
-use threads;
-use threads::shared;
-
-my ($num, $depth);
-BEGIN {
- $num   = 3;
- $depth = 2;
-}
-
-use Test::More tests => (($num ** ($depth + 1) - 1) / ($num - 1) - 1 ) * (2 + 2) + 1;
-
-BEGIN {
- defined and diag "Using threads $_"         for $threads::VERSION;
- defined and diag "Using threads::shared $_" for $threads::shared::VERSION;
-}
+my $num   = 3;
+my $depth = 2;
 
 use Thread::Cleanup;
 
-diag 'This will leak some scalars' unless $] >= 5.011005;
+diag 'This will leak some scalars' unless "$]" >= 5.011_005;
 
 our $x = -1;
 
@@ -41,16 +23,18 @@ my %called : shared;
 
 my @tids;
 
-sub spawn {
+sub test_threads {
  my ($num, $depth) = @_;
- @tids = ();
- return unless $depth > 0;
- map {
+ if ($depth <= 0) {
+  @tids = ();
+  return;
+ }
+ my @threads = map {
   local $x = $_;
-  my $thr = threads->create(\&cb, $_, $depth);
-  push @tids, $thr->tid;
-  $thr;
+  spawn(\&cb, $_, $depth);
  } 1 .. $num;
+ @tids = map $_->tid, @threads;
+ return @threads;
 }
 
 sub check {
@@ -78,7 +62,7 @@ sub cb {
  is $x, $y, "\$x in thread $tid";
  local $x = -$tid;
 
- $_->join for spawn $num, $depth - 1;
+ $_->join for test_threads $num, $depth - 1;
 
  check;
 }
@@ -99,7 +83,7 @@ Thread::Cleanup::register {
  local $x = $tid;
 };
 
-$_->join for spawn $num, $depth;
+$_->join for test_threads $num, $depth;
 
 check;
 
