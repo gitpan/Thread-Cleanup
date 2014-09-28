@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
+use VPIT::TestHelpers;
 use Thread::Cleanup::TestThreads;
 
 use Test::More 'no_plan';
@@ -11,6 +12,7 @@ use Test::More 'no_plan';
 use Thread::Cleanup;
 
 my %called : shared;
+my $destr  : shared;
 my %nums   : shared;
 
 our $x = -1;
@@ -27,8 +29,14 @@ Thread::Cleanup::register {
   lock %nums;
   $nums{$tid};
  };
-
  is $x, $num, "\$x in destructor of thread $tid";
+
+ my $gd = do {
+  lock $destr;
+  (defined $destr && $destr =~ /\[$tid\]/) ? 1 : undef;
+ };
+ is $gd, undef, "thread $tid destructor fires before global destruction";
+
  local $x = $tid;
 };
 
@@ -42,6 +50,14 @@ sub cb {
   lock %ran;
   $ran{$tid}++;
  }
+
+ my $immortal = VPIT::TestHelpers::Guard->new(sub {
+  # It seems we can't lock aggregates during global destruction, so we
+  # resort to using a string instead.
+  lock $destr;
+  $destr .= "[$tid]";
+ });
+ $immortal->{self} = $immortal;
 
  {
   lock %nums;

@@ -11,8 +11,6 @@
 
 #define TC_HAS_PERL(R, V, S) (PERL_REVISION > (R) || (PERL_REVISION == (R) && (PERL_VERSION > (V) || (PERL_VERSION == (V) && (PERL_SUBVERSION >= (S))))))
 
-#include "reap.h"
-
 STATIC void tc_callback(pTHX_ void *ud) {
  dSP;
 
@@ -30,6 +28,29 @@ STATIC void tc_callback(pTHX_ void *ud) {
  LEAVE;
 }
 
+STATIC int tc_endav_free(pTHX_ SV *sv, MAGIC *mg) {
+ SAVEDESTRUCTOR_X(tc_callback, NULL);
+
+ return 0;
+}
+
+STATIC MGVTBL tc_endav_vtbl = {
+ 0,
+ 0,
+ 0,
+ 0,
+ tc_endav_free
+#if MGf_COPY
+ , 0
+#endif
+#if MGf_DUP
+ , 0
+#endif
+#if MGf_LOCAL
+ , 0
+#endif
+};
+
 MODULE = Thread::Cleanup            PACKAGE = Thread::Cleanup
 
 PROTOTYPES: DISABLE
@@ -37,6 +58,17 @@ PROTOTYPES: DISABLE
 void
 CLONE(...)
 PREINIT:
+ GV *gv;
 PPCODE:
- reap(3, tc_callback, NULL);
+ gv = gv_fetchpv(__PACKAGE__ "::_CLEANUP", 0, SVt_PVCV);
+ if (gv) {
+  CV *cv = GvCV(gv);
+  if (!PL_endav)
+   PL_endav = newAV();
+  av_unshift(PL_endav, 1);
+  SvREFCNT_inc(cv);
+  if (!av_store(PL_endav, 0, (SV *) cv))
+   SvREFCNT_dec(cv);
+  sv_magicext((SV *) PL_endav, NULL, PERL_MAGIC_ext, &tc_endav_vtbl, NULL, 0);
+ }
  XSRETURN(0);

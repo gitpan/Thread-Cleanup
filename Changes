@@ -1,5 +1,11 @@
 Revision history for Thread-Cleanup
 
+0.06    2014-09-28 15:40 UTC
+        + Doc : Updates and clarifications.
+        + Fix : The hooks registered by this module will now be reliably
+                triggered when pseudo-forks (e.g. processes spawn on Windows
+                for the fork() emulation) terminate.
+
 0.05    2013-09-01 16:50 UTC
         This is a maintenance release. The code contains no functional change.
         Satisfied users of version 0.04 can skip this update.
