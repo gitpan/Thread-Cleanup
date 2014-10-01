@@ -2,7 +2,7 @@ NAME
     Thread::Cleanup - Hook thread destruction.
 
 VERSION
-    Version 0.06
+    Version 0.07
 
 SYNOPSIS
         use Thread::Cleanup;
@@ -21,8 +21,9 @@ DESCRIPTION
     It acts globally on all the threads that may spawn anywhere in your
     program, with the exception of the main thread.
 
-    The hook will also be called when pseudo-forks (i.e. processes spawn on
-    Windows for the "fork" emulation) terminate.
+    The hooks registered with this module will also be called when
+    pseudo-forks (i.e. processes spawn on Windows for the "fork" emulation)
+    terminate.
 
 FUNCTIONS
   "register"
@@ -41,8 +42,7 @@ FUNCTIONS
         global "END" time ;
 
     *   For pseudo-forks, it will be called when "waitpid" succeeds, after
-        any "END" block local to the spawn process but before any global
-        "END" block ;
+        any local or global "END" block ;
 
     *   It will never trigger for the destruction of the main thread.
 

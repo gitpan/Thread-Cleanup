@@ -4,7 +4,7 @@
       "Vincent Pit <perl@profvince.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142060",
+   "generated_by" : "ExtUtils::MakeMaker version 6.98, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
@@ -55,5 +55,5 @@
          "url" : "http://git.profvince.com/?p=perl%2Fmodules%2FThread-Cleanup.git"
       }
    },
-   "version" : "0.06"
+   "version" : "0.07"
 }

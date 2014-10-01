@@ -38,7 +38,7 @@ if ($pid) {
  Thread::Cleanup::register {
   pass               'pseudo-fork destructor called';
   is $local_end,  1, 'pseudo-fork destructor called after local END block';
-  is $global_end, 0, 'pseudo-fork destructor called before global END block';
+  is $global_end, 1, 'pseudo-fork destructor called after global END block';
   is $gd,         0, 'pseudo-fork destructor called before global destruction';
  };
 

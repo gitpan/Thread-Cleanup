@@ -11,14 +11,14 @@ Thread::Cleanup - Hook thread destruction.
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
 our $VERSION;
 
 BEGIN {
- $VERSION = '0.06';
+ $VERSION = '0.07';
  require XSLoader;
  XSLoader::load(__PACKAGE__, $VERSION);
 }
@@ -40,7 +40,7 @@ This module allows you to hook thread destruction without fiddling with the inte
 
 It acts globally on all the threads that may spawn anywhere in your program, with the exception of the main thread.
 
-The hook will also be called when pseudo-forks (i.e. processes spawn on Windows for the C<fork> emulation) terminate.
+The hooks registered with this module will also be called when pseudo-forks (i.e. processes spawn on Windows for the C<fork> emulation) terminate.
 
 =head1 FUNCTIONS
 
@@ -64,7 +64,7 @@ For detached threads, it will be called if and only if the thread terminates bef
 
 =item *
 
-For pseudo-forks, it will be called when C<waitpid> succeeds, after any C<END> block local to the spawn process but before any global C<END> block ;
+For pseudo-forks, it will be called when C<waitpid> succeeds, after any local or global C<END> block ;
 
 =item *
 

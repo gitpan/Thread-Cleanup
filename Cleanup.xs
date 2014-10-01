@@ -65,9 +65,8 @@ PPCODE:
   CV *cv = GvCV(gv);
   if (!PL_endav)
    PL_endav = newAV();
-  av_unshift(PL_endav, 1);
   SvREFCNT_inc(cv);
-  if (!av_store(PL_endav, 0, (SV *) cv))
+  if (!av_store(PL_endav, av_len(PL_endav) + 1, (SV *) cv))
    SvREFCNT_dec(cv);
   sv_magicext((SV *) PL_endav, NULL, PERL_MAGIC_ext, &tc_endav_vtbl, NULL, 0);
  }
